@@ -18,7 +18,6 @@ import com.Nexus.repository.UserRepo;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -77,40 +76,15 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-//	@Override
-//	public boolean updateUserProfile(User updatedUser, String email) {
-//
-//		User existingUser = userRepo.findByEmail(email);
-//
-//		if (existingUser != null) {
-//
-//			existingUser.setName(updatedUser.getName());
-//			existingUser.setMobileNo(updatedUser.getMobileNo());
-//
-//			userRepo.save(existingUser);
-//			return true;
-//		}
-//		return false;
-//	}
-
-	public User getUserByEmail(String email) {
-		return userRepo.findByEmail(email);
-	}
-
-
 	@Override
-	public boolean updateUserProfile(User updatedUser) {
-		User existingUser = userRepo.findByEmail(updatedUser.getEmail());
+	public boolean updateUserProfile(User updatedUser, String email) {
+
+		User existingUser = userRepo.findByEmail(email);
 
 		if (existingUser != null) {
-			// Set the updated fields (both image and non-image)
+
 			existingUser.setName(updatedUser.getName());
 			existingUser.setMobileNo(updatedUser.getMobileNo());
-
-			// Update the image field
-			if (updatedUser.getProfileImage() != null) {
-				existingUser.setProfileImage(updatedUser.getProfileImage());
-			}
 
 			userRepo.save(existingUser);
 			return true;
@@ -118,8 +92,9 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-
-
+	public User getUserByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
 
 	@Override
 	public void sendEmail(User user, String url) {
@@ -212,5 +187,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
+
+
 
 }

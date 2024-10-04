@@ -19,20 +19,11 @@ public class User {
 	@Column(nullable = false , unique = true )
 	private String email;
 
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private Image image;
+
 	@Column(nullable = false)
 	private String password;
-
-	@Lob
-	@Column(name = "profile_image", columnDefinition = "LONGBLOB" , nullable = true )
-	private byte[] profileImage;
-
-	public byte[] getProfileImage() {
-		return profileImage;
-	}
-
-	public void setProfileImage(byte[] profileImage) {
-		this.profileImage = profileImage;
-	}
 
 	private String role;
 
@@ -87,7 +78,15 @@ public class User {
 		this.verificationCode = verificationCode;
 	}
 
-	public int getId() {
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
+	public long getId() {
 		return id;
 	}
 

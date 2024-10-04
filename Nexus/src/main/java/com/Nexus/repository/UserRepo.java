@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.Nexus.entity.User;
 
-public interface UserRepo extends JpaRepository<User, Integer> {
+public interface UserRepo extends JpaRepository<User, Long> {
 
 	public User findByEmail(String emaill);
 

@@ -2,7 +2,7 @@ package com.Nexus.service;
 
 import com.Nexus.entity.User;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.Nexus.entity.*;
 
 public interface UserService {
 
@@ -22,9 +22,7 @@ public interface UserService {
 
 	public boolean unlockAccountTimeExpired(User user);
 
-	boolean updateUserProfile(User user  );
-
-//	boolean updateUserProfile(User user,  String email  );
+	boolean updateUserProfile(User user,  String email  );
 
 
 }

@@ -2,7 +2,9 @@ package com.Nexus.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 
+import com.Nexus.entity.Image;
 import com.Nexus.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
@@ -102,71 +105,21 @@ public class HomeController {
 
 	}
 
-//	@PostMapping("/updateProfile")
-//	public String updateProfile(@ModelAttribute User user, Principal principal, HttpSession session) {
-//
-//		String email = principal.getName();
-//
-//		boolean isUpdated = userServiceImpl.updateUserProfile(user, email);
-//
-//		if (isUpdated) {
-//			session.setAttribute("msg", "Profile updated successfully.");
-//		} else {
-//			session.setAttribute("msg", "Error updating profile.");
-//		}
-//
-//		return "redirect:/editProfile";
-//	}
-
 	@PostMapping("/updateProfile")
-	public String updateProfile(@ModelAttribute User user,
-								@RequestParam("profileImage") MultipartFile profileImage,
-								Principal principal,
-								HttpSession session) {
+	public String updateProfile(@ModelAttribute User user, Principal principal, HttpSession session) {
 
-		String email = principal.getName(); // Retrieve logged-in user's email
+		String email = principal.getName();
 
-		try {
-			// Fetch the existing user using the service method
-			User existingUser = userServiceImpl.getUserByEmail(email); // Using service method
+		boolean isUpdated = userServiceImpl.updateUserProfile(user, email);
 
-			if (existingUser != null) {
-				// Update non-image fields
-				existingUser.setName(user.getName());
-				existingUser.setMobileNo(user.getMobileNo());
-
-				// Handle the profile image if it's uploaded
-				if (profileImage != null && !profileImage.isEmpty()) {
-					byte[] imageBytes = profileImage.getBytes();
-					existingUser.setProfileImage(imageBytes); // Set the byte array to the user
-				}
-
-				// Update the user
-				boolean isUpdated = userServiceImpl.updateUserProfile(existingUser);
-
-				if (isUpdated) {
-					session.setAttribute("msg", "Profile updated successfully.");
-				} else {
-					session.setAttribute("msg", "Error updating profile.");
-				}
-			} else {
-				session.setAttribute("msg", "User not found.");
-			}
-		} catch (IOException e) {
-			session.setAttribute("msg", "Error processing the image file.");
-			e.printStackTrace();
+		if (isUpdated) {
+			session.setAttribute("msg", "Profile updated successfully.");
+		} else {
+			session.setAttribute("msg", "Error updating profile.");
 		}
 
 		return "redirect:/editProfile";
 	}
-
-
-
-
-
-
-
-
 
 
 
